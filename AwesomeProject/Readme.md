@@ -3,7 +3,7 @@
 # Assignment
 
 - create `src` folder
-- create `src/screens/ChatScreen.js` component
+- create `src/screens/Conversations.js` component
 - create `src/screens/ChatViewScreen.js` component
 - create `src/components/Compose.js` component
 - create `src/components/Message.js` component
