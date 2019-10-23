@@ -21,16 +21,14 @@ const App: () => React$Node = () => {
     <>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.container}>
-        <View style={styles.container}>
-          {renderScreen()}
-          <View>
-            <Button
-              title="Switch Screen"
-              onPress={() => {
-                setisConversationsScreen(!isConversationsScreen);
-              }}
-            />
-          </View>
+        {renderScreen()}
+        <View>
+          <Button
+            title="Switch Screen"
+            onPress={() => {
+              setisConversationsScreen(!isConversationsScreen);
+            }}
+          />
         </View>
       </SafeAreaView>
     </>
