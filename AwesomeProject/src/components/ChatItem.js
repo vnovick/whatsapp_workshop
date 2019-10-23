@@ -11,13 +11,11 @@ export const ChatItem = ({
 
   const animatedValue = new Animated.Value(0);
 
-  useEffect(() => {
-    Animated.timing(animatedValue, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  }, [animatedValue]);
+  Animated.timing(animatedValue, {
+    toValue: 1,
+    duration: 300,
+    useNativeDriver: true,
+  }).start();
 
   return (
     <Animated.View
