@@ -6,57 +6,45 @@
  * @flow
  */
 
-import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, View, Button, StatusBar} from 'react-native';
+import React from 'react';
+import {StatusBar, YellowBox} from 'react-native';
 import {ChatViewScreen, ConversationsScreen} from './src/screens';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
-const App: () => React$Node = () => {
-  const [isConversationsScreen, setisConversationsScreen] = useState(true);
+YellowBox.ignoreWarnings([
+  'Warning: DatePickerAndroid', // will be fixed with https://github.com/mmazzarolo/react-native-modal-datetime-picker/pull/262
+  'RCTRootView cancelTouches', // https://github.com/kmagiera/react-native-gesture-handler/issues/746
+]);
 
-  const renderScreen = () => {
-    return isConversationsScreen ? <ConversationsScreen /> : <ChatViewScreen />;
-  };
+const AppNavigator = createStackNavigator(
+  {
+    conversationsScreen: ConversationsScreen,
+    chatView: ChatViewScreen,
+  },
+  {
+    initialRouteName: 'conversationsScreen',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#006655',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+  },
+);
 
+const AppContainer = createAppContainer(AppNavigator);
+
+const App = () => {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <SafeAreaView style={styles.container}>
-        {renderScreen()}
-        <View>
-          <Button
-            title="Switch Screen"
-            onPress={() => {
-              setisConversationsScreen(!isConversationsScreen);
-            }}
-          />
-        </View>
-      </SafeAreaView>
+      <AppContainer />
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  welcome: {
-    color: 'white',
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-    width: '80%',
-  },
-  instructions: {
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 10,
-    fontSize: 15,
-  },
-  workshopInstructions: {
-    alignItems: 'flex-start',
-  },
-});
 
 export default App;

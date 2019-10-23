@@ -1,6 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, ImageBackground, FlatList, StyleSheet} from 'react-native';
-import {getMessagesById} from '../services/api';
+import {
+  Text,
+  View,
+  ImageBackground,
+  FlatList,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import {getMessagesById, postMessage} from '../services/api';
+import {Compose, Message} from '../components';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export const ChatViewScreen = () => {
   const getMessageItem = item => {
@@ -15,30 +25,50 @@ export const ChatViewScreen = () => {
     );
   };
 
-  const [messages, setmessages] = useState(() => {
+  const [messages, setmessages] = useState([]);
+
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 0;
+  useEffect(() => {
     const fetchMessages = async () => {
       const result = await getMessagesById();
       setmessages(result);
     };
     fetchMessages();
-  }, []);
-
-  useEffect(() => {}, []);
+  }, [messages]);
 
   return (
     <ImageBackground
       source={require('../assets/imgs/background.png')}
       style={styles.container}>
-      <FlatList
-        style={styles.container}
-        data={messages}
-        renderItem={({item}) => getMessageItem(item)}
-        keyExtractor={(item, index) => `message-${index}`}
-      />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        keyboardVerticalOffset={keyboardVerticalOffset}
+        style={styles.container}>
+        <FlatList
+          style={styles.container}
+          data={messages}
+          renderItem={({item}) => getMessageItem(item)}
+          keyExtractor={(item, index) => `message-${index}`}
+        />
+        <Compose submit={postMessage} />
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 };
 
+ChatViewScreen.navigationOptions = ({navigation}) => {
+  return {
+    title: navigation.state.params.title,
+    headerLeft: (
+      <Icon
+        name="chevron-left"
+        size={40}
+        color="#ffffff"
+        onPress={() => navigation.goBack()}
+      />
+    ),
+  };
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import {getChats} from '../services/api';
-import {ChatItem} from '../components/ChatItem';
+import {ChatItem} from '../components';
 
-export const ConversationsScreen = () => {
+export const ConversationsScreen = ({navigation}) => {
   const [chats, setchats] = useState([]);
   useEffect(() => {
     const fetchChats = async () => {
@@ -16,12 +16,18 @@ export const ConversationsScreen = () => {
     <View style={styles.container}>
       <FlatList
         data={chats}
-        renderItem={ChatItem}
+        renderItem={({item}) => (
+          <ChatItem item={item} navigate={navigation.navigate} />
+        )}
         keyExtractor={(item, index) => `message-${index}`}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
     </View>
   );
+};
+
+ConversationsScreen.navigationOptions = {
+  title: 'Conversations',
 };
 
 const styles = StyleSheet.create({
