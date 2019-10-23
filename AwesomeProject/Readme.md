@@ -35,8 +35,57 @@ const App = () => (
 
 - Add data through Hasura console using insert mutations
 - Query conversations and chats data in the app
+- Add insert message mutation
+- Get rid of api/services
 
+# Adding real time capabilities
 
+`yarn add apollo-link-ws subscriptions-transport-ws`
+
+substitute apollo boost to apollo client api
+```
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { split } from 'apollo-link';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
+
+// Create an http link:
+const httpLink = new HttpLink({
+  uri: 'endpoint url'
+});
+
+// Create a WebSocket link:
+const wsLink = new WebSocketLink({
+  uri: `ws://endpoint url`,
+  options: {
+    reconnect: true
+  }
+});
+
+// using the ability to split links, you can send data to each link
+// depending on what kind of operation is being sent
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink,
+);
+
+const cache = new InMemoryCache();
+const client = new ApolloClient({
+  // Provide required constructor fields
+  cache: cache,
+  link: link,
+});
+```
 
 
 
