@@ -5,7 +5,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export const ChatItem = ({
   navigate,
-  item: {id, avatar, title, description, date},
+  item: {
+    id,
+    user: {avatar, id: userId},
+    title,
+    description,
+    date,
+  },
 }) => {
   const imageUrl = {uri: avatar};
 
@@ -34,7 +40,7 @@ export const ChatItem = ({
       }}>
       <TouchableOpacity
         style={styles.chatItem}
-        onPress={() => navigate('chatView', {id, title})}>
+        onPress={() => navigate('chatView', {id, title, userId})}>
         <Avatar src={imageUrl} />
         <View style={styles.content}>
           <Text style={styles.title}>{title}</Text>

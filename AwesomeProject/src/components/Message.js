@@ -2,14 +2,19 @@ import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
-export const Message = ({item}) => (
-  <Animatable.View
-    duration={200}
-    animation={item.incoming ? 'slideInLeft' : 'slideInRight'}
-    style={[styles.message, item.incoming && styles.incomingMessage]}>
-    <Text>{item.message}</Text>
-  </Animatable.View>
-);
+const USER_ID = '124b15ed-50f4-42d3-ac74-0cb1293f4d7b';
+
+export const Message = ({item}) => {
+  const incoming = item.userId !== USER_ID;
+  return (
+    <Animatable.View
+      duration={200}
+      animation={incoming ? 'slideInLeft' : 'slideInRight'}
+      style={[styles.message, incoming && styles.incomingMessage]}>
+      <Text>{item.message}</Text>
+    </Animatable.View>
+  );
+};
 
 const styles = StyleSheet.create({
   message: {
