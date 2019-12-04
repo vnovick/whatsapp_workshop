@@ -1,5 +1,6 @@
 # Whatsapp Workshop
 
+Install [React Native Debugger](https://github.com/jhen0409/react-native-debugger)
 # Assignment
 
 - create `src` folder
