@@ -3,7 +3,7 @@
 ## If cloning from step1 branch
 
 - npm install
-- react-native link
+- cd ios && pod install && cd ../
 - react-native run-android
 
 

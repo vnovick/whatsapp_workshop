@@ -2,9 +2,12 @@
 
 ## If cloning from step1 branch
 
-- npm install
-- react-native link
+- yarn
 - react-native run-android
+
+- yarn
+- cd ios && pod install && ../
+- react-native run-ios
 
 
 ## Add Navigation to your app.
