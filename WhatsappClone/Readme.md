@@ -46,6 +46,10 @@ export const getMessages = () => (
 - Test style props https://facebook.github.io/react-native/docs/text.html
 - Vector Icons https://github.com/oblador/react-native-vector-icons
 
+
+_________________
+### If you are on older version of React Native:
+
 > Make sure to add to Info.plist and app/build.gradle the following:
 
 `Info.plist`
